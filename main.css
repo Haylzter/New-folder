@@ -141,7 +141,7 @@ button {
 
 /* Style for the gallery photos */
 .gallery-photo {
-  height: 200px;
+  height: 200px; 
   width: 100%;
   border-radius: 10px;
 }
@@ -149,12 +149,14 @@ button {
 /* Style for the gallery photos */
 .gallery-photo img {
   display: block;
-  max-width: 100%;
+  max-width: 100%; 
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
+
+
 
 /* Style for the image text */
 .image-text p {
@@ -162,34 +164,3 @@ button {
   font-size: 12px;
 }
 
-/* Style for the gallery scroll container */
-.image-scroll {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  
-}
-
-
-.image-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: none;
-  cursor: pointer;
-}
-
-.scroll-btn-left {
-  left: 0;
-}
-
-.scroll-btn-right {
-  right: 0;
-}
