@@ -109,14 +109,26 @@
                 
             </div>
     
-            
-            
-            <script src="./gallery1.js" ></script>
-            <script src="./data.js" ></script>
-
-
-         
-        </main>
-    </body>
-    </html>
+        </main>    
+        <script>
+            fetch('data.json')
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data => {
+                window.all_my_data = data;
+                console.log(window.all_my_data); 
+                
+              })
+              .catch(error => {
+                console.error('There was a problem fetching the data:', error);
+              });
+        </script>
+        
+        <script src="./gallery1.js"></script>
+        </body>
+        </html>
     
