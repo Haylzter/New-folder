@@ -18,8 +18,8 @@
 
     <script>
         function searchData() {
-            var searchInput = document.getElementById("searchInput").value.trim();
-            var url = "https://haylzter.github.io/New-folder/data.json";
+            const searchInput = document.getElementById("searchInput").value.trim();
+            const url = "https://haylzter.github.io/New-folder/data.json";
             
             // If search input is empty, clear results and return
             if (searchInput === "") {
@@ -31,12 +31,12 @@
             fetch(url)
                 .then(response => response.json()) 
                 .then(data => {
-                    var resultsDiv = document.getElementById("resultsDiv");
+                    const resultsDiv = document.getElementById("resultsDiv");
                     resultsDiv.innerHTML = ""; // Clear previous results
 
-                    var filteredProperties = data.filter(item => item.name.toLowerCase().includes(searchInput.toLowerCase()));
+                    const filteredProperties = data.filter(item => item.name.toLowerCase().includes(searchInput.toLowerCase()));
                     filteredProperties.forEach(property => {
-                        var propertyDiv = document.createElement("div");
+                        const propertyDiv = document.createElement("div");
                         propertyDiv.innerHTML = `
                             <h3>${property.name}</h3>
                             <p>${property.propertyDescription}</p>
@@ -47,7 +47,7 @@
 
                         // Append photos
                         property.photos.forEach(photo => {
-                            var img = document.createElement("img");
+                            const img = document.createElement("img");
                             img.src = photo;
                             img.style.width = "200px";
                             propertyDiv.appendChild(img);
