@@ -98,37 +98,27 @@
 
     
             
-            
-            <div class="gallery-container" id="galleryContainer">
-                <div class="gallery-row"> </div>
-                <div class="image-text"></div>
-
-
-
-
-                
-            </div>
-    
-        </main>    
-        <script>
-            fetch('https://haylzter.github.io/New-folder/data.json')
-              .then(response => {
-                if (!response.ok) {
-                  throw new Error('Network response was not ok');
-                }
-                return response.json();
-              })
-              .then(data => {
-                window.all_my_data = data;
-                console.log(window.all_my_data); 
-                
-              })
-              .catch(error => {
-                console.error('There was a problem fetching the data:', error);
-              });
-        </script>
+    <div class="gallery-container" id="galleryContainer">
+        <div class="gallery-row"> </div>
+        <div class="image-text"></div>
         
-        <script src="./gallery1.js"></script>
+
+
+
+
+        
+    </div>
+
+
+                
+           
+    
+        </main>  
+        
+        <script src="gallery1.js"></script>
+        
+    
+        
         </body>
         </html>
     
