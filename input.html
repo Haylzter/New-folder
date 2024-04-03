@@ -27,9 +27,9 @@
                 return;
             }
 
-            // Using Fetch API to make AJAX request
+            
             fetch(url)
-                .then(response => response.json()) // Convert response to JSON
+                .then(response => response.json()) 
                 .then(data => {
                     var resultsDiv = document.getElementById("resultsDiv");
                     resultsDiv.innerHTML = ""; // Clear previous results
@@ -56,9 +56,9 @@
                         resultsDiv.appendChild(propertyDiv);
                     });
                 })
-                .catch(error => console.error('Error fetching data:', error)); // Error handling
+                .catch(error => console.error('Error fetching data:', error)); 
         }
     </script>
-    <script src="gallery1.js"></script> <!-- Your JavaScript code for the gallery -->
+    <script src="gallery1.js"></script> 
 </body>
 </html>
