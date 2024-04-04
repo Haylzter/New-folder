@@ -118,14 +118,14 @@ button {
 /* Style for the gallery container */
 .gallery-container {
   display: block;
-  font-size: 0;
+  font-size: 12;
 }
 
 /* Style for each row of items */
 .gallery-row {
   display: block;
   overflow: hidden;
-  font-size: 0;
+  font-size: 12;
   margin: 20px;
 }
 

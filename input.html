@@ -10,7 +10,7 @@
     <input type="text" id="searchInput" placeholder="Enter property name..." oninput="searchData()">
     <button onclick="searchData()">Search</button>
     <br><br>
-    <div id="resultsDiv"></div>
+    
 
     <div class="gallery-container" id="galleryContainer">
         <div class="gallery-row"></div>
@@ -21,44 +21,98 @@
             const searchInput = document.getElementById("searchInput").value.trim();
             const url = "https://haylzter.github.io/New-folder/data.json";
             
-            // If search input is empty, clear results and return
-            if (searchInput === "") {
-                document.getElementById("resultsDiv").innerHTML = "";
-                return;
-            }
+            
+            
+                document.getElementById("galleryContainer").innerHTML = "<div class='gallery-row'></div>";
+                
+           
+          
 
             
-            fetch(url)
-                .then(response => response.json()) 
-                .then(data => {
-                    const resultsDiv = document.getElementById("resultsDiv");
-                    resultsDiv.innerHTML = ""; // Clear previous results
-
-                    const filteredProperties = data.filter(item => item.name.toLowerCase().includes(searchInput.toLowerCase()));
-                    filteredProperties.forEach(property => {
-                        const propertyDiv = document.createElement("div");
-                        propertyDiv.innerHTML = `
-                            <h3>${property.name}</h3>
-                            <p>${property.propertyDescription}</p>
-                            <p>Dates Available: ${property.datesAvailable}</p>
-                            <p>Cost: ${property.cost}</p>
-                            <p>Stars: ${property.stars}</p>
-                        `;
-
-                        // Append photos
-                        property.photos.forEach(photo => {
-                            const img = document.createElement("img");
-                            img.src = photo;
-                            img.style.width = "200px";
-                            propertyDiv.appendChild(img);
-                        });
-
-                        resultsDiv.appendChild(propertyDiv);
-                    });
-                })
-                .catch(error => console.error('Error fetching data:', error)); 
+            window.fetchData()           
+            
         }
+           window.fetchData = async () => {
+        const galleryRows = document.querySelectorAll(".gallery-row");
+        
+            const response = await fetch('https://haylzter.github.io/New-folder/data.json');
+            const data = await response.json();
+            console.log("hi there")
+            // Check if data is not undefined and is an array before iterating over it
+            if (Array.isArray(data)) {
+                // Loop through the data and create gallery items dynamically
+                for (const item of data) {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-item';
+
+                    galleryRows[0].appendChild(galleryItem);
+
+                    const galleryPhoto = document.createElement('div');
+                    galleryPhoto.className = 'gallery-photo';
+                    galleryItem.appendChild(galleryPhoto);
+
+                    const imageScroll = document.createElement('div');
+                    imageScroll.className = 'image-scroll';
+                    galleryPhoto.appendChild(imageScroll);
+
+                    
+                    // Check if item.photos is defined and is an array before iterating over it
+                    if (Array.isArray(item.photos)) {
+                        // Loop through the photos and create img elements
+                        item.photos.forEach(imageUrl => {
+                            const img = document.createElement('img');
+                            img.src = imageUrl;
+                            img.alt = item.name; // Use the property name for alt text
+                            imageScroll.appendChild(img);
+                        });
+                    } else {
+                        console.error('Error fetching data: Invalid image data format');
+                    }
+                    console.log("I'm hungry")
+                    const imageText = document.createElement('div');
+                    imageText.className = 'image-text';
+
+                    // Create individual elements for each piece of text content
+                    const nameText = document.createElement('p');
+                    
+                    nameText.textContent = item.name;
+
+                    const descriptionText = document.createElement('p');
+                    descriptionText.textContent = item.propertyDescription;
+
+                    const datesText = document.createElement('p');
+                    datesText.textContent = item.datesAvailable;
+
+                    const starsText = document.createElement('p');
+                    starsText.textContent = `${'$'.repeat(item.stars)} ${item.stars.toFixed(1)}`;
+
+                    const costText = document.createElement('p');
+                    costText.textContent = item.cost;
+
+                    // Append text elements to imageText
+                    imageText.appendChild(nameText);
+                    imageText.appendChild(descriptionText);
+                    imageText.appendChild(datesText);
+                    imageText.appendChild(starsText);
+                    imageText.appendChild(costText);
+
+                    galleryPhoto.appendChild(imageScroll);
+                    galleryPhoto.appendChild(imageText);
+                    galleryItem.appendChild(galleryPhoto);
+                    console.log("hello log")
+                }
+            } else {
+                console.error('Error fetching data: Invalid data format');
+            }
+            console.log("helloworld")
+            // After fetching and generating HTML, apply event listeners and DOM manipulations
+            applyGalleryEvents();
+        
+        
+    };
+
     </script>
     <script src="gallery1.js"></script> 
+
 </body>
 </html>
