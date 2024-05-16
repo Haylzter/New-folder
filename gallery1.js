@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const searchInput = document.getElementById("searchInput");
 
-    
+    // Fetch and display the gallery items initially
     fetchData().then(data => {
         displayGallery(data);
 
-        
+        // Add event listener to filter gallery items as you type
         searchInput.addEventListener("input", function () {
             const searchValue = searchInput.value.trim().toLowerCase();
             const filteredData = data.filter(item => item.name.toLowerCase().includes(searchValue));
