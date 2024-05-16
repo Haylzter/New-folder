@@ -1,91 +1,111 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOMContentLoaded event fired");
 
-    const galleryRows = document.querySelectorAll(".gallery-row");
+    const searchInput = document.getElementById("searchInput");
 
-    // Fetch data from data.json
-    const fetchData = async () => {
+    
+    fetchData().then(data => {
+        displayGallery(data);
+
+        
+        searchInput.addEventListener("input", function () {
+            const searchValue = searchInput.value.trim().toLowerCase();
+            const filteredData = data.filter(item => item.name.toLowerCase().includes(searchValue));
+            displayGallery(filteredData);
+        });
+    });
+
+    async function fetchData() {
+        const url = "https://haylzter.github.io/New-folder/data.json";
         try {
-            const response = await fetch('https://haylzter.github.io/New-folder/data.json');
+            const response = await fetch(url);
             const data = await response.json();
-
-            // Check if data is not undefined and is an array before iterating over it
             if (Array.isArray(data)) {
-                // Loop through the data and create gallery items dynamically
-                for (const item of data) {
-                    const galleryItem = document.createElement('div');
-                    galleryItem.className = 'gallery-item';
-
-                    galleryRows[0].appendChild(galleryItem);
-
-                    const galleryPhoto = document.createElement('div');
-                    galleryPhoto.className = 'gallery-photo';
-                    galleryItem.appendChild(galleryPhoto);
-
-                    const imageScroll = document.createElement('div');
-                    imageScroll.className = 'image-scroll';
-                    galleryPhoto.appendChild(imageScroll);
-
-                    
-                    // Check if item.photos is defined and is an array before iterating over it
-                    if (Array.isArray(item.photos)) {
-                        // Loop through the photos and create img elements
-                        item.photos.forEach(imageUrl => {
-                            const img = document.createElement('img');
-                            img.src = imageUrl;
-                            img.alt = item.name; // Use the property name for alt text
-                            imageScroll.appendChild(img);
-                        });
-                    } else {
-                        console.error('Error fetching data: Invalid image data format');
-                    }
-
-                    const imageText = document.createElement('div');
-                    imageText.className = 'image-text';
-
-                    // Create individual elements for each piece of text content
-                    const nameText = document.createElement('p');
-                    
-                    nameText.textContent = item.name;
-
-                    const descriptionText = document.createElement('p');
-                    descriptionText.textContent = item.propertyDescription;
-
-                    const datesText = document.createElement('p');
-                    datesText.textContent = item.datesAvailable;
-
-                    const starsText = document.createElement('p');
-                    starsText.textContent = `${'$'.repeat(item.stars)} ${item.stars.toFixed(1)}`;
-
-                    const costText = document.createElement('p');
-                    costText.textContent = item.cost;
-
-                    // Append text elements to imageText
-                    imageText.appendChild(nameText);
-                    imageText.appendChild(descriptionText);
-                    imageText.appendChild(datesText);
-                    imageText.appendChild(starsText);
-                    imageText.appendChild(costText);
-
-                    galleryPhoto.appendChild(imageScroll);
-                    galleryPhoto.appendChild(imageText);
-                    galleryItem.appendChild(galleryPhoto);
-                }
+                return data;
             } else {
                 console.error('Error fetching data: Invalid data format');
+                return [];
             }
-
-            // After fetching and generating HTML, apply event listeners and DOM manipulations
-            applyGalleryEvents();
         } catch (error) {
             console.error('Error fetching data:', error);
+            return [];
         }
-    };
+    }
 
-    fetchData();
+    function displayGallery(data) {
+        const galleryContainer = document.getElementById('galleryContainer');
+        const galleryRow = galleryContainer.querySelector('.gallery-row');
+        galleryRow.innerHTML = ''; // Clear existing gallery items
 
-    // Function to apply event listeners and DOM manipulations to gallery items
-    const applyGalleryEvents = () => {
+        if (Array.isArray(data)) {
+            // Loop through the data and create gallery items dynamically
+            for (const item of data) {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                galleryRow.appendChild(galleryItem);
+
+                const galleryPhoto = document.createElement('div');
+                galleryPhoto.className = 'gallery-photo';
+                galleryItem.appendChild(galleryPhoto);
+
+                const imageScroll = document.createElement('div');
+                imageScroll.className = 'image-scroll';
+                galleryPhoto.appendChild(imageScroll);
+
+                // Check if item.photos is defined and is an array before iterating over it
+                if (Array.isArray(item.photos)) {
+                    // Loop through the photos and create img elements
+                    item.photos.forEach(imageUrl => {
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.alt = item.name; // Use the property name for alt text
+                        imageScroll.appendChild(img);
+                    });
+                } else {
+                    console.error('Error fetching data: Invalid image data format');
+                }
+
+                const imageText = document.createElement('div');
+                imageText.className = 'image-text';
+
+                // Create individual elements for each piece of text content
+                const nameText = document.createElement('p');
+                nameText.textContent = item.name;
+
+                const descriptionText = document.createElement('p');
+                descriptionText.textContent = item.propertyDescription;
+
+                const datesText = document.createElement('p');
+                datesText.textContent = item.datesAvailable;
+
+                const starsText = document.createElement('p');
+                starsText.textContent = `${'$'.repeat(item.stars)} ${item.stars.toFixed(1)}`;
+
+                const costText = document.createElement('p');
+                costText.textContent = item.cost;
+
+                // Append text elements to imageText
+                imageText.appendChild(nameText);
+                imageText.appendChild(descriptionText);
+                imageText.appendChild(datesText);
+                imageText.appendChild(starsText);
+                imageText.appendChild(costText);
+
+                galleryPhoto.appendChild(imageScroll);
+                galleryPhoto.appendChild(imageText);
+                galleryItem.appendChild(galleryPhoto);
+            }
+        } else {
+            console.error('Error displaying gallery: Invalid data format');
+        }
+
+        // After generating HTML, apply event listeners and DOM manipulations
+        applyGalleryEvents();
+    }
+
+    function applyGalleryEvents() {
+        const galleryRows = document.querySelectorAll(".gallery-row");
         galleryRows.forEach((row) => {
             const galleryItems = row.querySelectorAll(".gallery-item");
 
@@ -182,5 +202,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
         });
-    };
+    }
 });
